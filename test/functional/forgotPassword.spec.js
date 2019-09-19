@@ -86,12 +86,12 @@ test('it cannot reset password after 2h of forgot password request', async ({
     const user = await Factory.model('App/Models/User').create({ email });
     const userToken = await Factory.model('App/Models/Token').make();
 
-    const dateWhithSub = format(subHours(new Date(), 5), 'yyyy-mm-dd hh:ii:ss');
+    const dateWhithSub = format(subHours(new Date(), 5), 'yyyy-MM-dd HH:ii:ss');
 
     await user.tokens().save(userToken);
-    Database.table('tokens')
+    await Database.table('tokens')
         .where('token', userToken.token)
-        .update('created_ad', dateWhithSub);
+        .update('created_at', dateWhithSub);
 
     await userToken.reload();
 
