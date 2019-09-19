@@ -1,5 +1,3 @@
-'use strict';
-
 /*
 |--------------------------------------------------------------------------
 | Factory
@@ -15,18 +13,18 @@
 const Factory = use('Factory');
 
 Factory.blueprint('App/Models/User', (faker, i, data = {}) => {
-	return {
-		name: faker.name(),
-		email: faker.email(),
-		password: faker.string(),
-		...data
-	};
+    return {
+        name: faker.name(),
+        email: faker.email(),
+        password: faker.string(),
+        ...data,
+    };
 });
 
 Factory.blueprint('App/Models/Token', async (faker, i, data = {}) => {
-	return {
-		type: data.type || 'refreshtoken',
-		token: faker.string({ length: 20 }),
-		...data
-	};
+    return {
+        type: data.type || 'refreshtoken',
+        token: faker.string({ length: 20 }),
+        ...data,
+    };
 });

@@ -1,5 +1,3 @@
-'use strict';
-
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 
@@ -10,31 +8,38 @@ const Env = use('Env');
 const User = use('App/Models/User');
 
 class ForgotPasswordController {
-	async store({ request }) {
-		// CAPTURANDO O EMAIL RECEBIDO
-		const email = request.input('email');
+    async store({ request }) {
+        // CAPTURANDO O EMAIL RECEBIDO
+        const email = request.input('email');
 
-		// CAPTURANDO O USUARIO NO BANCO DE DADOS
-		const user = await User.findByOrFail('email', email);
+        // CAPTURANDO O USUARIO NO BANCO DE DADOS
+        const user = await User.findByOrFail('email', email);
 
-		// GERANDO O TOKEN
-		const random = await promisify(randomBytes)(16);
-		const token = random.toString('hex');
+        // GERANDO O TOKEN
+        const random = await promisify(randomBytes)(16);
+        const token = random.toString('hex');
 
-		// SALVANDO O TOKEN
-		await user.tokens().create({
-			token,
-			type: 'forgotpassword'
-		});
+        // SALVANDO O TOKEN
+        await user.tokens().create({
+            token,
+            type: 'forgotpassword',
+        });
 
-		// CAPTURANDO A URL ATUAL DO FRONTEND
-		const resetPasswordUrl = `${Env.get('FRONT_URL')}/reset?token=${token}`;
+        // CAPTURANDO A URL ATUAL DO FRONTEND
+        const resetPasswordUrl = `${Env.get('FRONT_URL')}/reset?token=${token}`;
 
-		// ENVIANDO O EMAIL PARA O USUÁRIO
-		await Mail.send('emails.forgotPassword', { name: user.name, token, resetPasswordUrl }, (message) => {
-			message.to(user.email).from('hecktorvn@hotmail.com').subject('App ACG - Recuperação e Senha');
-		});
-	}
+        // ENVIANDO O EMAIL PARA O USUÁRIO
+        await Mail.send(
+            'emails.forgotPassword',
+            { name: user.name, token, resetPasswordUrl },
+            message => {
+                message
+                    .to(user.email)
+                    .from('hecktorvn@hotmail.com')
+                    .subject('App ACG - Recuperação e Senha');
+            }
+        );
+    }
 }
 
 module.exports = ForgotPasswordController;
