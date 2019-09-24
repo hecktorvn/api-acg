@@ -22,3 +22,8 @@ Route.post('/sessions', 'SessionController.store').validator('Session');
 Route.post('/forgot', 'ForgotPasswordController.store').validator('Forgot');
 Route.post('/reset', 'ResetPasswordController.store').validator('Reset');
 Route.post('/users', 'UserController.store').validator('StoreUser');
+
+// RESOURCE ROUTES
+Route.resource('users', 'UserController')
+    .apiOnly()
+    .middleware('auth');

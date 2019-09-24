@@ -2,6 +2,11 @@
 const User = use('App/Models/User');
 
 class UserController {
+    async index() {
+        const users = await User.all();
+        return users;
+    }
+
     async store({ request, response }) {
         const { email, name, password } = request.only([
             'email',
@@ -17,7 +22,12 @@ class UserController {
                 .json({ error: 'Erro ao tentar criar o usuário' });
         }
 
-        return response.json(user.toJSON());
+        return user;
+    }
+
+    async show({ params }) {
+        const user = await User.findOrFail(params.id);
+        return user;
     }
 }
 
