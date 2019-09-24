@@ -9,7 +9,8 @@ class AcceptJsonApi {
      * @param {Function} next
      */
     async handle({ request }, next) {
-        request.setHeader('Accept', 'application/json');
+        let headers = request.headers();
+        headers.accept = 'application/json';
 
         await next();
     }
