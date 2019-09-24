@@ -14,6 +14,9 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
 
+// INITIAL ROUTE
+Route.get('/', 'Hello, welcome to api-acg.');
+
 // STORE ROUTES
 Route.post('/sessions', 'SessionController.store').validator('Session');
 Route.post('/forgot', 'ForgotPasswordController.store').validator('Forgot');
