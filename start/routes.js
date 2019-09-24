@@ -15,7 +15,9 @@
 const Route = use('Route');
 
 // INITIAL ROUTE
-Route.get('/', 'Hello, welcome to api-acg.');
+Route.get('/', () => {
+    return 'Hello, welcome to api-acg.';
+});
 
 // STORE ROUTES
 Route.post('/sessions', 'SessionController.store').validator('Session');
