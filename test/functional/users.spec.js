@@ -61,3 +61,21 @@ test('It should return the users list', async ({ client, assert }) => {
     response.assertStatus(200);
     assert.isArray(response.body);
 });
+
+test('It should only data to user id send', async ({ client, assert }) => {
+    const user = await Factory.model('App/Models/User').create();
+
+    const response = await client
+        .get(`/users/1`)
+        .loginVia(user, 'jwt')
+        .end();
+
+    response.assertStatus(200);
+    assert.include(response.body, { id: 1 });
+});
+
+test('It should return error when not send user token', async ({ client }) => {
+    await Factory.model('App/Models/User').create();
+    const response = await client.get(`/users`).end();
+    response.assertStatus(401);
+});
