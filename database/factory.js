@@ -28,3 +28,12 @@ Factory.blueprint('App/Models/Token', async (faker, i, data = {}) => {
         ...data,
     };
 });
+
+Factory.blueprint('App/Models/Cap', async (faker, i, data = {}) => {
+    return {
+        name: faker.string({ length: 20 }),
+        date: faker.date(),
+        amount: faker.floating({ fixed: 2 }),
+        ...data,
+    };
+});

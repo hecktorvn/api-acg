@@ -8,13 +8,9 @@ class UserController {
     }
 
     async store({ request, response }) {
-        const { email, name, password } = request.only([
-            'email',
-            'name',
-            'password',
-        ]);
+        const data = request.only(['email', 'name', 'password']);
 
-        const user = await User.create({ email, name, password });
+        const user = await User.create(data);
 
         if (!user) {
             return response

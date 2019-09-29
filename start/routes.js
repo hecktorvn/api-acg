@@ -25,7 +25,10 @@ Route.post('/forgot', 'ForgotPasswordController.store').validator('Forgot');
 Route.post('/reset', 'ResetPasswordController.store').validator('Reset');
 Route.post('/users', 'UserController.store').validator('StoreUser');
 
-// RESOURCE ROUTES
-Route.resource('users', 'UserController')
-    .apiOnly()
-    .middleware('auth');
+Route.group(() => {
+    Route.resource('users', 'UserController').apiOnly();
+
+    Route.resource('caps', 'CapController')
+        .apiOnly()
+        .validator(new Map([['caps.store', 'StoreCap']]));
+}).middleware('auth');

@@ -21,6 +21,7 @@ test('It should add the user on database', async ({ assert, client }) => {
         .end();
 
     response.assertStatus(200);
+
     assert.exists(response.body.id);
 });
 
