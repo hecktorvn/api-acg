@@ -47,9 +47,15 @@ class CapController {
      * Display a single cap.
      * GET caps/:id
      */
-    async show({ params }) {
-        const cap = Cap.findOrFail(params.id);
-        return cap;
+    async show({ response, params }) {
+        try{
+            const cap = await Cap.findOrFail(params.id);
+            return cap;
+        } catch(error) {
+            return response
+                .status(404)
+                .json({ error: 'CAP não encontrado!' });
+        }
     }
 }
 

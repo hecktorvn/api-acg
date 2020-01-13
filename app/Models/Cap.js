@@ -6,4 +6,4 @@ const Model = use('Model')
 class Cap extends Model {
 }
 
-module.exports = Cap
+module.exports = Cap;

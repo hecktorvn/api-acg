@@ -21,9 +21,15 @@ class UserController {
         return user;
     }
 
-    async show({ params }) {
-        const user = await User.findOrFail(params.id);
-        return user;
+    async show({ response, params }) {
+        try{
+            const user = await User.findOrFail(params.id);
+            return user;
+        } catch(error){
+            return response
+                .status(400)
+                .json({ error: 'O usuário não foi encontrado!' });
+        }
     }
 }
 
